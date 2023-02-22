@@ -6,6 +6,8 @@ import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
 import { Construct } from 'constructs';
 
 export class WebsiteBucketStack extends Stack {
+  readonly bucket: Bucket;
+
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
@@ -14,11 +16,6 @@ export class WebsiteBucketStack extends Stack {
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
       removalPolicy: RemovalPolicy.DESTROY,
       enforceSSL: true,
-    });
-
-    new BucketDeployment(this, 'WebsiteBucketDeployment', {
-      destinationBucket: websiteBucket,
-      sources: [Source.asset('./assets/website')],
     });
 
     const originAccessIdentity = new OriginAccessIdentity(this, 'OriginAccessIdentity');
@@ -34,5 +31,7 @@ export class WebsiteBucketStack extends Stack {
       defaultRootObject: "index.html",
       errorResponses: [{ httpStatus: 404, responseHttpStatus: 200, responsePagePath: "/index.html" }],
     });
+
+    this.bucket = websiteBucket;
   }
 }
