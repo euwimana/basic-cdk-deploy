@@ -11,7 +11,6 @@ export class LambdaStack extends Stack {
       runtime: Runtime.NODEJS_16_X,
       code: Code.fromAsset('./assets/lambda'),
       handler: 'index.handler',
-      environment: { API_URL: 'https://api.quotable.io' },
     });
   }
 }
