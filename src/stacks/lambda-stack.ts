@@ -5,6 +5,8 @@ import { Construct } from 'constructs';
 
 
 export class LambdaStack extends Stack {
+  readonly apiId: string;
+
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
@@ -25,6 +27,8 @@ export class LambdaStack extends Stack {
 
     const quotes = api.root.addResource('quotes');
 
-    quotes.addMethod('GET')
+    quotes.addMethod('GET');
+
+    this.apiId = api.restApiId;
   }
 }
